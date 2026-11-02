@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Update Employee Leave | VARSHINI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f4f6f3;
+            color: #172e27;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 260px;
+            min-width: 260px;
+            background: #142d25;
+            color: white;
+            padding: 35px 22px;
+        }
+
+        .logo {
+            font-family: 'Manrope', sans-serif;
+            font-size: 29px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #62d6a4;
+        }
+
+        .subtitle {
+            color: #a8c3b7;
+            font-size: 12px;
+            letter-spacing: 1.4px;
+            margin-top: 8px;
+        }
+
+        .menu-title {
+            color: #91afa2;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin: 45px 0 18px 12px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #d8e5df;
+            text-decoration: none;
+            padding: 15px;
+            margin-bottom: 8px;
+            border-radius: 11px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #29483b;
+            border-left: 4px solid #62d6a4;
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 38px;
+        }
+
+        .top-label {
+            color: #08765c;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-description {
+            color: #718078;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .brand-badge {
+            background: white;
+            border: 1px solid #e0e9e2;
+            padding: 15px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* HERO SECTION */
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 30px;
+            padding: 28px;
+            background: #e4f1e9;
+            border: 1px solid #d5e8dc;
+            border-radius: 22px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+
+        .hero-label {
+            color: #08765c;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 13px;
+        }
+
+        .hero h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(24px, 2.5vw, 32px);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #65776d;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 15px;
+            display: block;
+        }
+
+        /* UPDATE CARD */
+
+        .update-card {
+            background: white;
+            border: 1px solid #e1e9e3;
+            border-radius: 22px;
+            padding: 30px;
+        }
+
+        .card-heading {
+            font-family: 'Manrope', sans-serif;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: #7b8981;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        /* SEARCH BAR */
+
+        .search-panel {
+            background: #f6f9f6;
+            border: 1px solid #e0e9e2;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .search-panel label {
+            display: block;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .search-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-row input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #dce6df;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            color: #172e27;
+            background: white;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #279b70;
+            box-shadow: 0 0 0 3px rgba(39, 155, 112, 0.1);
+        }
+
+        /* BUTTONS */
+
+        button {
+            border: none;
+            padding: 14px 21px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .primary-btn {
+            background: #176b4d;
+            color: white;
+        }
+
+        .primary-btn:hover:not(:disabled) {
+            background: #10553c;
+        }
+
+        .secondary-btn {
+            background: #e9f0eb;
+            color: #284a3a;
+        }
+
+        .secondary-btn:hover:not(:disabled) {
+            background: #dce8df;
+        }
+
+        /* STATUS MESSAGE */
+
+        #message {
+            display: none;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        #message.success {
+            display: block;
+            background: #e8f5ec;
+            color: #176b4d;
+        }
+
+        #message.error {
+            display: block;
+            background: #fff0ef;
+            color: #b42318;
+        }
+
+        #message.info {
+            display: block;
+            background: #edf4fa;
+            color: #245b83;
+        }
+
+        /* EDIT FORM */
+
+        .edit-section {
+            display: none;
+            border-top: 1px solid #e5ece6;
+            padding-top: 28px;
+            margin-top: 15px;
+        }
+
+        .edit-section.visible {
+            display: block;
+        }
+
+        .edit-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .edit-heading h3 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 22px;
+        }
+
+        .edit-badge {
+            color: #176b4d;
+            background: #e8f5ec;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 23px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        textarea {
+            min-height: 115px;
+            resize: vertical;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .save-btn {
+            min-width: 160px;
+        }
+
+        .helper-text {
+            color: #7b8981;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* SUCCESS TOAST POPUP */
+
+        .toast {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            max-width: calc(100% - 50px);
+            background: #176b4d;
+            color: white;
+            padding: 17px 22px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-15px);
+            transition: opacity 0.3s ease,
+                        transform 0.3s ease,
+                        visibility 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .toast-icon {
+            width: 27px;
+            height: 27px;
+            min-width: 27px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 225px;
+                min-width: 225px;
+                padding: 28px 16px;
+            }
+
+            .main {
+                padding: 25px;
+            }
+
+            .hero {
+                gap: 20px;
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-width: 0;
+                padding: 20px;
+            }
+
+            .menu-title {
+                margin: 22px 0 10px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                padding: 11px;
+                margin: 3px;
+                font-size: 13px;
+            }
+
+            .main {
+                padding: 18px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+
+            .brand-badge {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero img {
+                height: 220px;
+            }
+
+            .update-card {
+                padding: 20px;
+            }
+
+            .search-panel {
+                padding: 16px;
+            }
+
+            .search-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-row button {
+                width: 100%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .button-row button {
+                flex: 1;
+            }
+
+            .toast {
+                top: 15px;
+                right: 15px;
+                max-width: calc(100% - 30px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SUCCESS POPUP -->
+
+<div id="toast" class="toast" role="status" aria-live="polite">
+    <span class="toast-icon">✓</span>
+    <span id="toastMessage">Employee leave data updated successfully!</span>
+</div>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">VARSHINI<span>.</span></div>
+
+        <div class="subtitle">EMPLOYEE LEAVE PORTAL</div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="add.html">Apply Leave</a>
+            <a href="list.html">All Records</a>
+            <a href="search.html">Search Record</a>
+            <a href="update.html" class="active">Update Record</a>
+            <a href="delete.html">Delete Record</a>
+        </nav>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <header class="page-header">
+
+            <div>
+                <div class="top-label">EMPLOYEE MANAGEMENT</div>
+
+                <h1>Update Leave Details</h1>
+
+                <p class="page-description">
+                    Load an employee's record, make changes, and save the updated information.
+                </p>
+            </div>
+
+            <div class="brand-badge">✦ VARSHINI</div>
+
+        </header>
+
+        <!-- HERO IMAGE -->
+
+        <section class="hero">
+
+            <div>
+                <div class="hero-label">UPDATE EMPLOYEE RECORDS</div>
+
+                <h2>Manage Leave Records<br>Directly From Your Laptop.</h2>
+
+                <p>
+                    Retrieve an employee's existing leave information,
+                    correct the details that need updating, and save
+                    the changes to your employee database.
+                </p>
+            </div>
+
+            <img
+                src="https://sbosserp.com/images/hr-management-system/leave-management-system.webp"
+                alt="Employee leave management and digital records"
+                onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80';"
+            >
+
+        </section>
+
+        <!-- UPDATE CARD -->
+
+        <section class="update-card">
+
+            <h2 class="card-heading">Find Employee</h2>
+
+            <p class="card-description">
+                Enter the employee ID and click Load Data to retrieve the existing record.
+            </p>
+
+            <!-- SEARCH BAR -->
+
+            <div class="search-panel">
+
+                <form id="searchForm">
+
+                    <label for="Employee_id">Employee ID</label>
+
+                    <div class="search-row">
+
+                        <input
+                            type="number"
+                            id="Employee_id"
+                            min="1"
+                            step="1"
+                            placeholder="Enter Employee ID, e.g. 101"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="primary-btn"
+                            id="loadBtn"
+                        >
+                            Load Data
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- STATUS MESSAGE -->
+
+            <div id="message" role="status" aria-live="polite"></div>
+
+            <!-- EDITABLE EMPLOYEE DATA -->
+
+            <div class="edit-section" id="editSection">
+
+                <div class="edit-heading">
+
+                    <h3>Edit Leave Information</h3>
+
+                    <span class="edit-badge">RECORD LOADED</span>
+
+                </div>
+
+                <form id="updateForm">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="name">Employee Name *</label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                maxlength="100"
+                                placeholder="Enter employee name"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="department">Department *</label>
+
+                            <input
+                                type="text"
+                                id="department"
+                                maxlength="100"
+                                placeholder="Enter department"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="type_of_leave">Type of Leave *</label>
+
+                            <select id="type_of_leave" required>
+
+                                <option value="">Select leave type</option>
+                                <option value="Casual Leave">Casual Leave</option>
+                                <option value="Sick Leave">Sick Leave</option>
+                                <option value="Earned Leave">Earned Leave</option>
+                                <option value="Personal Leave">Personal Leave</option>
+                                <option value="Emergency Leave">Emergency Leave</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="number_of_days">Number of Days *</label>
+
+                            <input
+                                type="number"
+                                id="number_of_days"
+                                min="1"
+                                step="1"
+                                placeholder="Enter number of days"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group full-width">
+
+                            <label for="description">Reason for Leave *</label>
+
+                            <textarea
+                                id="description"
+                                placeholder="Enter the reason for leave"
+                                required
+                            ></textarea>
+
+                            <p class="helper-text">
+                                Check all the details before saving your changes.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+
+                    <div class="button-row">
+
+                        <button
+                            type="submit"
+                            class="primary-btn save-btn"
+                            id="saveBtn"
+                        >
+                            Save Changes
+                        </button>
+
+                        <button
+                            type="button"
+                            class="secondary-btn"
+                            id="cancelBtn"
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+    const searchForm = document.getElementById("searchForm");
+    const updateForm = document.getElementById("updateForm");
+
+    const employeeIdInput = document.getElementById("Employee_id");
+    const editSection = document.getElementById("editSection");
+    const message = document.getElementById("message");
+
+    const loadBtn = document.getElementById("loadBtn");
+    const saveBtn = document.getElementById("saveBtn");
+
+    const toast = document.getElementById("toast");
+    const toastMessage = document.getElementById("toastMessage");
+
+    let currentEmployeeId = null;
+    let toastTimer;
+
+    // SHOW TOAST POPUP
+
+    function showToast(text) {
+        toastMessage.textContent = text;
+        toast.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer = setTimeout(function() {
+            toast.classList.remove("show");
+        }, 3500);
+    }
+
+    // SHOW STATUS MESSAGE
+
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = type;
+    }
+
+    // CLEAR STATUS MESSAGE
+
+    function clearMessage() {
+        message.textContent = "";
+        message.className = "";
+    }
+
+    // HIDE EDIT FORM
+
+    function hideEditor() {
+        editSection.classList.remove("visible");
+        updateForm.reset();
+        currentEmployeeId = null;
+    }
+
+    // LOAD DATA INTO FORM
+
+    function fillForm(employee) {
+
+        document.getElementById("name").value =
+            employee.name ?? employee.stud_name ?? "";
+
+        document.getElementById("department").value =
+            employee.department ?? "";
+
+        document.getElementById("type_of_leave").value =
+            employee.type_of_leave ?? "";
+
+        document.getElementById("number_of_days").value =
+            employee.number_of_days ?? "";
+
+        document.getElementById("description").value =
+            employee.description ?? "";
+
+        currentEmployeeId =
+            employee.Employee_id ?? employee.employee_id;
+
+        editSection.classList.add("visible");
+    }
+
+    // LOAD EMPLOYEE DATA
+
+    searchForm.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const employeeId = employeeIdInput.value.trim();
+
+        if (
+            !employeeId ||
+            !Number.isInteger(Number(employeeId)) ||
+            Number(employeeId) <= 0
+        ) {
+            hideEditor();
+
+            showMessage(
+                "Please enter a valid employee ID.",
+                "error"
+            );
+
+            return;
+        }
+
+        hideEditor();
+        clearMessage();
+
+        loadBtn.disabled = true;
+        loadBtn.textContent = "Loading...";
+
+        showMessage("Loading employee data...", "info");
+
+        try {
+
+            const response = await fetch(
+                "/employees/" + encodeURIComponent(employeeId)
+            );
+
+            const responseText = await response.text();
+
+            let data;
+
+            try {
+                data = JSON.parse(responseText);
+            } catch {
+                data = responseText;
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    typeof data === "string"
+                        ? data
+                        : (data.message || data.error ||
+                           "Could not load employee data.")
+                );
+            }
+
+            const employee = Array.isArray(data)
+                ? data[0]
+                : data;
+
+            if (
+                !employee ||
+                (employee.Employee_id == null &&
+                 employee.employee_id == null)
+            ) {
+                showMessage(
+                    "No employee record found for ID " + employeeId + ".",
+                    "error"
+                );
+
+                return;
+            }
+
+            fillForm(employee);
+
+            showMessage(
+                "Employee data loaded. You can now modify the details.",
+                "success"
+            );
+
+        } catch (error) {
+
+            console.error("Load employee error:", error);
+
+            showMessage(
+                error.message || "Unable to load employee data.",
+                "error"
+            );
+
+        } finally {
+
+            loadBtn.disabled = false;
+            loadBtn.textContent = "Load Data";
+
+        }
+
+    });
+
+    // SAVE UPDATED DATA
+
+    updateForm.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        if (
+            currentEmployeeId === null ||
+            currentEmployeeId === undefined
+        ) {
+            showMessage(
+                "Please load an employee record first.",
+                "error"
+            );
+
+            return;
+        }
+
+        const numberOfDays = Number(
+            document.getElementById("number_of_days").value
+        );
+
+        if (
+            !Number.isInteger(numberOfDays) ||
+            numberOfDays < 1
+        ) {
+            showMessage(
+                "Number of days must be a positive whole number.",
+                "error"
+            );
+
+            return;
+        }
+
+        const updatedEmployee = {
+            name: document.getElementById("name").value.trim(),
+
+            department: document.getElementById("department").value.trim(),
+
+            type_of_leave: document.getElementById("type_of_leave").value,
+
+            number_of_days: numberOfDays,
+
+            description: document.getElementById("description").value.trim()
+        };
+
+        if (
+            !updatedEmployee.name ||
+            !updatedEmployee.department ||
+            !updatedEmployee.type_of_leave ||
+            !updatedEmployee.description
+        ) {
+            showMessage(
+                "Please fill in all the required fields.",
+                "error"
+            );
+
+            return;
+        }
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving...";
+
+        showMessage("Saving your changes...", "info");
+
+        try {
+
+            const response = await fetch(
+                "/employees/" + encodeURIComponent(currentEmployeeId),
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(updatedEmployee)
+                }
+            );
+
+            const result = await response.text();
+
+            if (!response.ok) {
+                throw new Error(
+                    result || "Unable to update employee record."
+                );
+            }
+
+            // SHOW SUCCESS MESSAGE ONLY AFTER SERVER CONFIRMS UPDATE
+
+            showMessage(
+                result || "Employee record updated successfully.",
+                "success"
+            );
+
+            showToast("Employee leave data updated successfully!");
+
+        } catch (error) {
+
+            console.error("Update employee error:", error);
+
+            showMessage(
+                error.message || "Unable to save changes.",
+                "error"
+            );
+
+        } finally {
+
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Save Changes";
+
+        }
+
+    });
+
+    // CANCEL EDITING
+
+    document.getElementById("cancelBtn").addEventListener("click", function() {
+
+        hideEditor();
+        clearMessage();
+        employeeIdInput.focus();
+
+    });
+</script>
+
+</body>
+</html>
