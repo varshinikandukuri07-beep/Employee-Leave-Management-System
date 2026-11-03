@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Record | VARSHINI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f4f6f3;
+            color: #172e27;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: #142d25;
+            color: white;
+            padding: 40px 25px;
+        }
+
+        .logo {
+            font-family: 'Manrope', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #62d6a4;
+        }
+
+        .subtitle {
+            color: #a8c3b7;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            margin-top: 8px;
+        }
+
+        .menu-title {
+            color: #91afa2;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin: 48px 0 20px 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #d8e5df;
+            text-decoration: none;
+            padding: 17px 18px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #29483b;
+            border-left: 4px solid #62d6a4;
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 45px;
+        }
+
+        .top-label {
+            color: #08765c;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .page-description {
+            color: #718078;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .brand-badge {
+            background: white;
+            border: 1px solid #e0e9e2;
+            padding: 17px 22px;
+            border-radius: 16px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* HERO BANNER */
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            align-items: center;
+            gap: 35px;
+            padding: 32px;
+            background: #e4f1e9;
+            border: 1px solid #d5e8dc;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .hero-label {
+            color: #08765c;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .hero h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(24px, 2.3vw, 32px);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #718078;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            border-radius: 16px;
+        }
+
+        /* SEARCH CARD */
+        .search-card {
+            background: white;
+            border: 1px solid #e1e9e3;
+            border-radius: 22px;
+            padding: 35px;
+        }
+
+        .search-card h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: #7b8981;
+            margin-bottom: 28px;
+            line-height: 1.7;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #dce6df;
+            border-radius: 11px;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #279b70;
+            box-shadow: 0 0 0 3px rgba(39, 155, 112, 0.1);
+        }
+
+        button {
+            border: none;
+            padding: 15px 24px;
+            border-radius: 11px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .search-btn {
+            background: #176b4d;
+            color: white;
+        }
+
+        .search-btn:hover {
+            background: #10553c;
+        }
+
+        .clear-btn {
+            background: #edf3ef;
+            color: #284a3a;
+        }
+
+        .clear-btn:hover {
+            background: #dfeae3;
+        }
+
+        /* RESULTS */
+        .result-card {
+            margin-top: 30px;
+            background: white;
+            border: 1px solid #e1e9e3;
+            border-radius: 22px;
+            padding: 30px;
+            display: none;
+        }
+
+        .result-card h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 24px;
+            margin-bottom: 22px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .detail-item {
+            padding: 20px;
+            background: #f5f8f5;
+            border-radius: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-label {
+            color: #718078;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #234735;
+            line-height: 1.6;
+        }
+
+        #message {
+            margin-top: 22px;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        #message.error {
+            display: block;
+            background: #fff0ef;
+            color: #b42318;
+        }
+
+        #message.info {
+            display: block;
+            background: #e8f5ec;
+            color: #176b4d;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 230px;
+                min-width: 230px;
+                padding: 30px 18px;
+            }
+
+            .main {
+                padding: 28px;
+            }
+
+            .hero {
+                gap: 22px;
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-width: 0;
+                padding: 20px;
+            }
+
+            .menu-title {
+                margin: 20px 0 10px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                padding: 12px;
+                margin: 3px;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .brand-badge {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero img {
+                height: 220px;
+            }
+
+            .search-card,
+            .result-card {
+                padding: 22px;
+            }
+
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-group {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .search-form button {
+                width: 100%;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">VARSHINI<span>.</span></div>
+        <div class="subtitle">EMPLOYEE LEAVE PORTAL</div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="add.html">Apply Leave</a>
+            <a href="list.html">All Records</a>
+            <a href="search.html" class="active">Search Record</a>
+            <a href="update.html">Update Record</a>
+            <a href="delete.html">Delete Record</a>
+        </nav>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <div class="page-header">
+            <div>
+                <div class="top-label">EMPLOYEE MANAGEMENT</div>
+                <h1>Search Records</h1>
+                <p class="page-description">
+                    Find employee leave details quickly using the employee ID.
+                </p>
+            </div>
+
+            <div class="brand-badge">✦ VARSHINI</div>
+        </div>
+
+        <!-- HERO BANNER -->
+        <section class="hero">
+
+            <div>
+                <div class="hero-label">QUICK SEARCH</div>
+
+                <h2>Find the Record.<br>Get the Details.</h2>
+
+                <p>
+                    Search employee leave information using a unique employee ID.
+                    Access the details you need without browsing every record.
+                </p>
+            </div>
+
+            <img
+                src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1000&q=80"
+                alt="Modern office workspace"
+            >
+
+        </section>
+
+        <!-- SEARCH FORM -->
+        <section class="search-card">
+
+            <h2>Find an Employee</h2>
+
+            <p class="card-description">
+                Enter the employee ID below to view the corresponding leave record.
+            </p>
+
+            <form id="searchForm" class="search-form">
+
+                <div class="form-group">
+                    <label for="employeeId">Employee ID</label>
+
+                    <input
+                        type="number"
+                        id="employeeId"
+                        placeholder="Enter employee ID"
+                        min="1"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="search-btn">
+                    Search Record
+                </button>
+
+                <button type="button" class="clear-btn" id="clearBtn">
+                    Clear
+                </button>
+
+            </form>
+
+            <div id="message" role="status"></div>
+
+        </section>
+
+        <!-- SEARCH RESULT -->
+        <section class="result-card" id="resultCard">
+
+            <h2>Employee Details</h2>
+
+            <div class="details-grid" id="detailsGrid"></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+    const searchForm = document.getElementById("searchForm");
+    const employeeIdInput = document.getElementById("employeeId");
+    const message = document.getElementById("message");
+    const resultCard = document.getElementById("resultCard");
+    const detailsGrid = document.getElementById("detailsGrid");
+    const clearBtn = document.getElementById("clearBtn");
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, function (char) {
+            const replacements = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            };
+
+            return replacements[char];
+        });
+    }
+
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = type;
+    }
+
+    function hideResult() {
+        resultCard.style.display = "none";
+        detailsGrid.innerHTML = "";
+    }
+
+    function displayEmployee(employee) {
+        const fields = [
+            ["Employee ID", employee.Employee_id ?? employee.employee_id],
+            ["Employee Name", employee.name ?? employee.stud_name],
+            ["Department", employee.department],
+            ["Leave Type", employee.type_of_leave],
+            ["Number of Days", employee.number_of_days],
+            ["Reason for Leave", employee.description]
+        ];
+
+        detailsGrid.innerHTML = fields.map(function ([label, value]) {
+            return `
+                <div class="detail-item">
+                    <div class="detail-label">${escapeHTML(label)}</div>
+                    <div class="detail-value">${escapeHTML(value ?? "Not available")}</div>
+                </div>
+            `;
+        }).join("");
+
+        resultCard.style.display = "block";
+    }
+
+    searchForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const employeeId = employeeIdInput.value.trim();
+
+        if (!employeeId) {
+            hideResult();
+            showMessage("Please enter an employee ID.", "error");
+            return;
+        }
+
+        hideResult();
+        showMessage("Searching for employee record...", "info");
+
+        try {
+            /*
+              This uses the existing GET /employees API and searches
+              its returned records by employee ID.
+            */
+            const response = await fetch("/employees");
+
+            if (!response.ok) {
+                throw new Error("Could not retrieve employee records.");
+            }
+
+            const data = await response.json();
+
+            const employees = Array.isArray(data)
+                ? data
+                : (Array.isArray(data.employees) ? data.employees : []);
+
+            const employee = employees.find(function (item) {
+                const id = item.Employee_id ?? item.employee_id;
+                return String(id) === String(employeeId);
+            });
+
+            if (!employee) {
+                hideResult();
+                showMessage(
+                    "No employee record found for ID " + employeeId + ".",
+                    "error"
+                );
+                return;
+            }
+
+            displayEmployee(employee);
+            showMessage("Employee record found successfully.", "info");
+
+        } catch (error) {
+            console.error("Search error:", error);
+
+            hideResult();
+
+            showMessage(
+                "Unable to search records. Check that your server is running and GET /employees works.",
+                "error"
+            );
+        }
+    });
+
+    clearBtn.addEventListener("click", function () {
+        searchForm.reset();
+        hideResult();
+        message.textContent = "";
+        message.className = "";
+        employeeIdInput.focus();
+    });
+</script>
+
+</body>
+</html>
