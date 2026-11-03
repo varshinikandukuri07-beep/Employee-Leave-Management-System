@@ -1,0 +1,951 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search | VARSHINI Placement System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f5fb;
+            color: #252746;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 245px;
+            height: 100vh;
+            padding: 28px 18px;
+            background: linear-gradient(180deg, #191537, #34256d);
+            color: white;
+            overflow-y: auto;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 0 0 8px 10px;
+            letter-spacing: 1px;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: #c9c3ef;
+            margin: 0 0 35px 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #e2dff6;
+            padding: 13px 14px;
+            margin: 7px 0;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #6652c7;
+            color: white;
+        }
+
+        .main {
+            margin-left: 245px;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .topbar p {
+            color: #77798d;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .user-badge {
+            background: #e8e3ff;
+            color: #4a359f;
+            padding: 12px 17px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 13px;
+            box-shadow: 0 4px 15px rgba(30, 25, 70, 0.06);
+            border-left: 5px solid #6d55d9;
+        }
+
+        .summary-card p {
+            color: #77798d;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .summary-card h2 {
+            font-size: 27px;
+            color: #30245f;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(30, 25, 70, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+        }
+
+        .card-header p {
+            color: #77798d;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .search-area {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 13px 15px;
+            border: 1px solid #dcdbea;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            border-color: #7058d9;
+            box-shadow: 0 0 0 3px rgba(112, 88, 217, 0.12);
+        }
+
+        button {
+            border: none;
+            padding: 12px 17px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #6550c8;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4f3bac;
+        }
+
+        .btn-secondary {
+            background: #eae7f8;
+            color: #4b3a9b;
+        }
+
+        .btn-secondary:hover {
+            background: #dcd5f6;
+        }
+
+        .message {
+            display: none;
+            padding: 13px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+            background: #ffebed;
+            color: #a91f35;
+        }
+
+        .message.success {
+            display: block;
+            background: #e3f8ec;
+            color: #17683a;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        thead {
+            background: #f0edff;
+        }
+
+        th {
+            text-align: left;
+            color: #49388f;
+            padding: 14px 13px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid #eeedf5;
+            font-size: 13px;
+        }
+
+        tbody tr:hover {
+            background: #faf9ff;
+        }
+
+        .result-count {
+            color: #77798d;
+            font-size: 13px;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #77798d;
+            padding: 25px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #88899a;
+            font-size: 12px;
+            padding: 10px 0 20px;
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin: 4px;
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .brand-subtitle {
+                margin-bottom: 15px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 16px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">VARSHINI</div>
+        <div class="brand-subtitle">COLLEGE PLACEMENT SYSTEM</div>
+
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="students.html">Students</a>
+            <a href="companies.html">Companies</a>
+            <a href="applications.html">Applications</a>
+            <a href="search.html" class="active">Search</a>
+            <a href="update.html">Update</a>
+            <a href="delete.html">Delete</a>
+            <a href="report.html">Reports</a>
+        </nav>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h1>Search Records</h1>
+                <p>Find students, companies, and placement applications from one page.</p>
+            </div>
+
+            <div class="user-badge">Admin Panel</div>
+        </header>
+
+        <!-- SUMMARY -->
+        <section class="summary-grid">
+
+            <div class="summary-card">
+                <p>Total Students</p>
+                <h2 id="studentCount">0</h2>
+            </div>
+
+            <div class="summary-card">
+                <p>Total Companies</p>
+                <h2 id="companyCount">0</h2>
+            </div>
+
+            <div class="summary-card">
+                <p>Total Applications</p>
+                <h2 id="applicationCount">0</h2>
+            </div>
+
+        </section>
+
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+
+        <!-- STUDENT SEARCH -->
+        <section class="card">
+
+            <div class="card-header">
+                <div>
+                    <h2>Search Students</h2>
+                    <p>Search by student ID, name, roll number, branch, or email.</p>
+                </div>
+
+                <span class="result-count" id="studentResultCount">0 records</span>
+            </div>
+
+            <div class="search-area">
+
+                <input
+                    type="search"
+                    class="search-input"
+                    id="studentSearch"
+                    placeholder="Enter student name, roll number, branch..."
+                    aria-label="Search students"
+                >
+
+                <button type="button" class="btn-primary"
+                    onclick="renderStudents()">Search</button>
+
+                <button type="button" class="btn-secondary"
+                    onclick="clearSearch('studentSearch', renderStudents)">Clear</button>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Roll Number</th>
+                            <th>Branch</th>
+                            <th>CGPA</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentsTable">
+                        <tr>
+                            <td colspan="6" class="empty-message">Loading students...</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- COMPANY SEARCH -->
+        <section class="card">
+
+            <div class="card-header">
+                <div>
+                    <h2>Search Companies</h2>
+                    <p>Search by company name, job role, or company ID.</p>
+                </div>
+
+                <span class="result-count" id="companyResultCount">0 records</span>
+            </div>
+
+            <div class="search-area">
+
+                <input
+                    type="search"
+                    class="search-input"
+                    id="companySearch"
+                    placeholder="Enter company name or job role..."
+                    aria-label="Search companies"
+                >
+
+                <button type="button" class="btn-primary"
+                    onclick="renderCompanies()">Search</button>
+
+                <button type="button" class="btn-secondary"
+                    onclick="clearSearch('companySearch', renderCompanies)">Clear</button>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Company ID</th>
+                            <th>Company Name</th>
+                            <th>Job Role</th>
+                            <th>Package</th>
+                            <th>Minimum CGPA</th>
+                            <th>Drive Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="companiesTable">
+                        <tr>
+                            <td colspan="6" class="empty-message">Loading companies...</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- APPLICATION SEARCH -->
+        <section class="card">
+
+            <div class="card-header">
+                <div>
+                    <h2>Search Applications</h2>
+                    <p>Search by application ID, student, company, round, or status.</p>
+                </div>
+
+                <span class="result-count" id="applicationResultCount">0 records</span>
+            </div>
+
+            <div class="search-area">
+
+                <input
+                    type="search"
+                    class="search-input"
+                    id="applicationSearch"
+                    placeholder="Enter student, company, interview round, status..."
+                    aria-label="Search applications"
+                >
+
+                <button type="button" class="btn-primary"
+                    onclick="renderApplications()">Search</button>
+
+                <button type="button" class="btn-secondary"
+                    onclick="clearSearch('applicationSearch', renderApplications)">Clear</button>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Application ID</th>
+                            <th>Student</th>
+                            <th>Roll Number</th>
+                            <th>Company</th>
+                            <th>Job Role</th>
+                            <th>Applied Date</th>
+                            <th>Round</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="applicationsTable">
+                        <tr>
+                            <td colspan="8" class="empty-message">Loading applications...</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <div class="footer">
+            © 2026 VARSHINI | College Placement Management System
+        </div>
+
+    </main>
+
+    <script>
+
+        // API ROUTES
+        const studentsAPI = "/students";
+        const companiesAPI = "/companies";
+        const applicationsAPI = "/applications";
+
+        let students = [];
+        let companies = [];
+        let applications = [];
+        let messageTimer = null;
+
+        // DISPLAY MESSAGE
+        function showMessage(text, type = "success") {
+
+            const box = document.getElementById("message");
+
+            clearTimeout(messageTimer);
+
+            box.textContent = text;
+            box.className = "message " + type;
+
+            messageTimer = setTimeout(() => {
+                box.textContent = "";
+                box.className = "message";
+            }, 6000);
+        }
+
+        // API REQUEST
+        async function apiRequest(url) {
+
+            let response;
+
+            try {
+                response = await fetch(url);
+            } catch (error) {
+                throw new Error(
+                    "Cannot connect to the server. Make sure app2.js is running on port 3009."
+                );
+            }
+
+            const contentType = response.headers.get("content-type") || "";
+
+            if (!contentType.includes("application/json")) {
+
+                if (!response.ok) {
+                    throw new Error("Server returned HTTP " + response.status + ".");
+                }
+
+                throw new Error(
+                    "The server returned HTML instead of JSON. Check your API routes in app2.js."
+                );
+            }
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message || data.error || "Request failed: " + response.status
+                );
+            }
+
+            return data;
+        }
+
+        // ESCAPE HTML
+        function escapeHTML(value) {
+
+            return String(value ?? "").replace(/[&<>"']/g, character => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[character]);
+        }
+
+        // FORMAT DATE
+        function formatDate(value) {
+
+            if (!value) return "—";
+
+            const date = String(value).slice(0, 10);
+
+            if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+
+                const [year, month, day] = date.split("-");
+
+                return `${day}-${month}-${year}`;
+            }
+
+            return date;
+        }
+
+        // FORMAT PACKAGE
+        function formatPackage(value) {
+
+            if (value === null || value === undefined || value === "") {
+                return "—";
+            }
+
+            const number = Number(value);
+
+            if (!Number.isFinite(number)) {
+                return String(value);
+            }
+
+            return "₹" + number.toLocaleString("en-IN") + " LPA";
+        }
+
+        // UPDATE SUMMARY CARDS
+        function updateSummary() {
+
+            document.getElementById("studentCount").textContent = students.length;
+
+            document.getElementById("companyCount").textContent = companies.length;
+
+            document.getElementById("applicationCount").textContent = applications.length;
+        }
+
+        // LOAD ALL RECORDS
+        async function loadAllRecords() {
+
+            const results = await Promise.allSettled([
+                apiRequest(studentsAPI),
+                apiRequest(companiesAPI),
+                apiRequest(applicationsAPI)
+            ]);
+
+            let failed = false;
+
+            if (results[0].status === "fulfilled" &&
+                Array.isArray(results[0].value)) {
+
+                students = results[0].value;
+
+            } else {
+
+                students = [];
+                failed = true;
+
+                document.getElementById("studentsTable").innerHTML =
+                    '<tr><td colspan="6" class="empty-message">Unable to load students.</td></tr>';
+            }
+
+            if (results[1].status === "fulfilled" &&
+                Array.isArray(results[1].value)) {
+
+                companies = results[1].value;
+
+            } else {
+
+                companies = [];
+                failed = true;
+
+                document.getElementById("companiesTable").innerHTML =
+                    '<tr><td colspan="6" class="empty-message">Unable to load companies.</td></tr>';
+            }
+
+            if (results[2].status === "fulfilled" &&
+                Array.isArray(results[2].value)) {
+
+                applications = results[2].value;
+
+            } else {
+
+                applications = [];
+                failed = true;
+
+                document.getElementById("applicationsTable").innerHTML =
+                    '<tr><td colspan="8" class="empty-message">Unable to load applications.</td></tr>';
+            }
+
+            updateSummary();
+
+            if (results[0].status === "fulfilled") renderStudents();
+            if (results[1].status === "fulfilled") renderCompanies();
+            if (results[2].status === "fulfilled") renderApplications();
+
+            if (failed) {
+
+                showMessage(
+                    "Some records could not be loaded. Check app2.js and the server terminal.",
+                    "error"
+                );
+
+            } else {
+
+                showMessage("All records loaded successfully.");
+            }
+        }
+
+        // SEARCH STUDENTS
+        function renderStudents() {
+
+            const query = document.getElementById("studentSearch")
+                .value.trim().toLowerCase();
+
+            if (!query) {
+
+                showMessage("Please enter a student search value.", "error");
+                return;
+            }
+
+            const filtered = students.filter(student => {
+
+                const values = [
+                    student.student_id,
+                    student.name,
+                    student.roll_no,
+                    student.branch,
+                    student.cgpa,
+                    student.email
+                ];
+
+                return values.join(" ").toLowerCase().includes(query);
+            });
+
+            document.getElementById("studentResultCount").textContent =
+                filtered.length + (filtered.length === 1 ? " record" : " records");
+
+            const tbody = document.getElementById("studentsTable");
+
+            if (filtered.length === 0) {
+
+                tbody.innerHTML =
+                    '<tr><td colspan="6" class="empty-message">No matching students found.</td></tr>';
+
+                showMessage("No matching student records found.", "error");
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(student => `
+                <tr>
+                    <td>${escapeHTML(student.student_id)}</td>
+                    <td>${escapeHTML(student.name)}</td>
+                    <td>${escapeHTML(student.roll_no)}</td>
+                    <td>${escapeHTML(student.branch)}</td>
+                    <td>${escapeHTML(student.cgpa)}</td>
+                    <td>${escapeHTML(student.email)}</td>
+                </tr>
+            `).join("");
+
+            showMessage(filtered.length + " student record(s) found.");
+        }
+
+        // SEARCH COMPANIES
+        function renderCompanies() {
+
+            const query = document.getElementById("companySearch")
+                .value.trim().toLowerCase();
+
+            if (!query) {
+
+                showMessage("Please enter a company search value.", "error");
+                return;
+            }
+
+            const filtered = companies.filter(company => {
+
+                const values = [
+                    company.company_id,
+                    company.company_name,
+                    company.job_role,
+                    company.package,
+                    company.eligibility_cgpa,
+                    company.drive_date
+                ];
+
+                return values.join(" ").toLowerCase().includes(query);
+            });
+
+            document.getElementById("companyResultCount").textContent =
+                filtered.length + (filtered.length === 1 ? " record" : " records");
+
+            const tbody = document.getElementById("companiesTable");
+
+            if (filtered.length === 0) {
+
+                tbody.innerHTML =
+                    '<tr><td colspan="6" class="empty-message">No matching companies found.</td></tr>';
+
+                showMessage("No matching company records found.", "error");
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(company => `
+                <tr>
+                    <td>${escapeHTML(company.company_id)}</td>
+                    <td>${escapeHTML(company.company_name)}</td>
+                    <td>${escapeHTML(company.job_role)}</td>
+                    <td>${escapeHTML(formatPackage(company.package))}</td>
+                    <td>${escapeHTML(company.eligibility_cgpa)}</td>
+                    <td>${escapeHTML(formatDate(company.drive_date))}</td>
+                </tr>
+            `).join("");
+
+            showMessage(filtered.length + " company record(s) found.");
+        }
+
+        // SEARCH APPLICATIONS
+        function renderApplications() {
+
+            const query = document.getElementById("applicationSearch")
+                .value.trim().toLowerCase();
+
+            if (!query) {
+
+                showMessage("Please enter an application search value.", "error");
+                return;
+            }
+
+            const filtered = applications.filter(app => {
+
+                const values = [
+                    app.application_id,
+                    app.student_id,
+                    app.student_name,
+                    app.roll_no,
+                    app.company_id,
+                    app.company_name,
+                    app.job_role,
+                    app.applied_date,
+                    app.round,
+                    app.status
+                ];
+
+                return values.join(" ").toLowerCase().includes(query);
+            });
+
+            document.getElementById("applicationResultCount").textContent =
+                filtered.length + (filtered.length === 1 ? " record" : " records");
+
+            const tbody = document.getElementById("applicationsTable");
+
+            if (filtered.length === 0) {
+
+                tbody.innerHTML =
+                    '<tr><td colspan="8" class="empty-message">No matching applications found.</td></tr>';
+
+                showMessage("No matching application records found.", "error");
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(app => `
+                <tr>
+                    <td>${escapeHTML(app.application_id)}</td>
+                    <td>${escapeHTML(app.student_name || "Unknown")}</td>
+                    <td>${escapeHTML(app.roll_no || "—")}</td>
+                    <td>${escapeHTML(app.company_name || "Unknown")}</td>
+                    <td>${escapeHTML(app.job_role || "—")}</td>
+                    <td>${escapeHTML(formatDate(app.applied_date))}</td>
+                    <td>${escapeHTML(app.round || "—")}</td>
+                    <td>${escapeHTML(app.status || "—")}</td>
+                </tr>
+            `).join("");
+
+            showMessage(filtered.length + " application record(s) found.");
+        }
+
+        // CLEAR SEARCH
+        function clearSearch(inputId, renderFunction) {
+
+            document.getElementById(inputId).value = "";
+
+            const tableIds = {
+                studentSearch: "studentsTable",
+                companySearch: "companiesTable",
+                applicationSearch: "applicationsTable"
+            };
+
+            const countIds = {
+                studentSearch: "studentResultCount",
+                companySearch: "companyResultCount",
+                applicationSearch: "applicationResultCount"
+            };
+
+            const colspan = {
+                studentSearch: 6,
+                companySearch: 6,
+                applicationSearch: 8
+            };
+
+            document.getElementById(tableIds[inputId]).innerHTML =
+                '<tr><td colspan="' + colspan[inputId] +
+                '" class="empty-message">Click Search to find records.</td></tr>';
+
+            document.getElementById(countIds[inputId]).textContent = "0 records";
+
+            document.getElementById("message").textContent = "";
+            document.getElementById("message").className = "message";
+
+            clearTimeout(messageTimer);
+        }
+
+        // LOAD RECORDS WHEN PAGE OPENS
+        loadAllRecords();
+
+    </script>
+
+</body>
+</html>
