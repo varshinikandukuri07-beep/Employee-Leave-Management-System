@@ -1,0 +1,1005 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Records | VARSHINI Placement System</title>
+
+```
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f4f5fb;
+        color: #252746;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 245px;
+        height: 100vh;
+        padding: 28px 18px;
+        background: linear-gradient(180deg, #191537, #34256d);
+        color: white;
+        overflow-y: auto;
+    }
+
+    .brand {
+        font-size: 25px;
+        font-weight: bold;
+        margin: 0 0 8px 10px;
+        letter-spacing: 1px;
+    }
+
+    .brand-subtitle {
+        font-size: 12px;
+        color: #c9c3ef;
+        margin: 0 0 35px 10px;
+    }
+
+    .sidebar a {
+        display: block;
+        text-decoration: none;
+        color: #e2dff6;
+        padding: 13px 14px;
+        margin: 7px 0;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+        background: #6652c7;
+        color: white;
+    }
+
+    .main {
+        margin-left: 245px;
+        padding: 30px;
+    }
+
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+    }
+
+    .topbar h1 {
+        font-size: 27px;
+        margin-bottom: 8px;
+    }
+
+    .topbar p {
+        color: #77798d;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .user-badge {
+        background: #e8e3ff;
+        color: #4a359f;
+        padding: 12px 17px;
+        border-radius: 25px;
+        font-weight: bold;
+    }
+
+    .info-card {
+        background: #eae7ff;
+        color: #40327f;
+        border-left: 5px solid #7058d9;
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-bottom: 22px;
+        line-height: 1.7;
+        font-size: 14px;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+    }
+
+    .tab-button {
+        padding: 13px 20px;
+        border: 1px solid #ddd8f4;
+        border-radius: 8px;
+        background: white;
+        color: #4b3a9b;
+    }
+
+    .tab-button.active {
+        background: #6550c8;
+        color: white;
+        border-color: #6550c8;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(30, 25, 70, 0.06);
+        margin-bottom: 25px;
+    }
+
+    .card h2 {
+        font-size: 21px;
+        margin-bottom: 8px;
+    }
+
+    .card-description {
+        color: #77798d;
+        font-size: 13px;
+        margin-bottom: 23px;
+        line-height: 1.6;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #42435b;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #dcdbea;
+        border-radius: 7px;
+        background: white;
+        color: #252746;
+        outline: none;
+        font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #7058d9;
+        box-shadow: 0 0 0 3px rgba(112, 88, 217, 0.12);
+    }
+
+    input:disabled,
+    select:disabled {
+        background: #f1f1f5;
+        cursor: not-allowed;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 23px;
+    }
+
+    button {
+        border: none;
+        padding: 12px 17px;
+        border-radius: 7px;
+        font-weight: bold;
+        font-size: 13px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .btn-primary {
+        background: #6550c8;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #4f3bac;
+    }
+
+    .btn-secondary {
+        background: #eae7f8;
+        color: #4b3a9b;
+    }
+
+    .btn-secondary:hover {
+        background: #dcd5f6;
+    }
+
+    .message {
+        display: none;
+        padding: 13px 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .message.success {
+        display: block;
+        background: #e3f8ec;
+        color: #17683a;
+    }
+
+    .message.error {
+        display: block;
+        background: #ffebed;
+        color: #a91f35;
+    }
+
+    .footer {
+        text-align: center;
+        color: #88899a;
+        font-size: 12px;
+        padding: 10px 0 20px;
+    }
+
+    @media (max-width: 1000px) {
+        .sidebar {
+            width: 200px;
+        }
+
+        .main {
+            margin-left: 200px;
+            padding: 22px;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .sidebar {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .sidebar a {
+            display: inline-block;
+            margin: 4px;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        .brand-subtitle {
+            margin-bottom: 15px;
+        }
+
+        .main {
+            margin-left: 0;
+            padding: 16px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            padding: 18px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="brand">VARSHINI</div>
+    <div class="brand-subtitle">COLLEGE PLACEMENT SYSTEM</div>
+
+    <nav>
+        <a href="index.html">Dashboard</a>
+        <a href="students.html">Students</a>
+        <a href="companies.html">Companies</a>
+        <a href="applications.html">Applications</a>
+        <a href="search.html">Search</a>
+        <a href="update.html" class="active">Update</a>
+        <a href="delete.html">Delete</a>
+        <a href="report.html">Reports</a>
+    </nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+    <header class="topbar">
+        <div>
+            <h1>Update Records</h1>
+            <p>Find an existing record, edit its details, and save the changes.</p>
+        </div>
+
+        <div class="user-badge">Admin Panel</div>
+    </header>
+
+    <div class="info-card">
+        <strong>How to use:</strong><br>
+        1. Choose the type of record you want to update.<br>
+        2. Select the existing record from the dropdown.<br>
+        3. Edit the required fields and click Save Changes.<br>
+        Application updates currently support the interview round and status.
+    </div>
+
+    <!-- RECORD TYPE TABS -->
+    <div class="tabs">
+        <button type="button" class="tab-button active"
+                data-type="students" onclick="switchType('students')">
+            Update Student
+        </button>
+
+        <button type="button" class="tab-button"
+                data-type="companies" onclick="switchType('companies')">
+            Update Company
+        </button>
+
+        <button type="button" class="tab-button"
+                data-type="applications" onclick="switchType('applications')">
+            Update Application
+        </button>
+    </div>
+
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+
+    <!-- UPDATE FORM -->
+    <section class="card">
+        <h2 id="formTitle">Update Student Details</h2>
+        <p class="card-description" id="formDescription">
+            Select a student and update their personal and academic details.
+        </p>
+
+        <form id="updateForm">
+
+            <!-- SELECT EXISTING RECORD -->
+            <div class="form-group" style="margin-bottom: 22px;">
+                <label id="recordLabel" for="recordSelect">Select Student</label>
+                <select id="recordSelect" required>
+                    <option value="">Loading records...</option>
+                </select>
+            </div>
+
+            <!-- STUDENT FIELDS -->
+            <div id="studentFields" class="form-grid">
+
+                <div class="form-group">
+                    <label for="studentName">Student Name</label>
+                    <input type="text" id="studentName" maxlength="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="rollNo">Roll Number</label>
+                    <input type="text" id="rollNo" maxlength="30" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="branch">Branch</label>
+                    <input type="text" id="branch" maxlength="50" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cgpa">CGPA</label>
+                    <input type="number" id="cgpa" min="0" max="10"
+                           step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentEmail">Email</label>
+                    <input type="email" id="studentEmail" maxlength="100" required>
+                </div>
+
+            </div>
+
+            <!-- COMPANY FIELDS -->
+            <div id="companyFields" class="form-grid" hidden>
+
+                <div class="form-group">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" id="companyName" maxlength="150">
+                </div>
+
+                <div class="form-group">
+                    <label for="jobRole">Job Role</label>
+                    <input type="text" id="jobRole" maxlength="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="package">Package (LPA)</label>
+                    <input type="number" id="package" min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="eligibilityCgpa">Eligibility CGPA</label>
+                    <input type="number" id="eligibilityCgpa" min="0"
+                           max="10" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="driveDate">Drive Date</label>
+                    <input type="date" id="driveDate">
+                </div>
+
+            </div>
+
+            <!-- APPLICATION FIELDS -->
+            <div id="applicationFields" class="form-grid" hidden>
+
+                <div class="form-group">
+                    <label for="applicationStudent">Student</label>
+                    <input type="text" id="applicationStudent" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicationCompany">Company</label>
+                    <input type="text" id="applicationCompany" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicationDate">Applied Date</label>
+                    <input type="date" id="applicationDate" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicationRound">Interview Round</label>
+                    <select id="applicationRound">
+                        <option value="Applied">Applied</option>
+                        <option value="Online Test">Online Test</option>
+                        <option value="Technical Interview">Technical Interview</option>
+                        <option value="HR Interview">HR Interview</option>
+                        <option value="Offer">Offer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicationStatus">Application Status</label>
+                    <select id="applicationStatus">
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Selected">Selected</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" id="saveButton">
+                    Save Changes
+                </button>
+
+                <button type="button" class="btn-secondary" onclick="resetForm()">
+                    Reset Form
+                </button>
+
+                <button type="button" class="btn-secondary" onclick="loadRecords()">
+                    Refresh Records
+                </button>
+            </div>
+
+        </form>
+    </section>
+
+    <div class="footer">
+        © 2026 VARSHINI | College Placement Management System
+    </div>
+
+</main>
+
+<script>
+    let currentType = "students";
+    let students = [];
+    let companies = [];
+    let applications = [];
+    let messageTimer = null;
+
+    const recordSelect = document.getElementById("recordSelect");
+    const updateForm = document.getElementById("updateForm");
+    const saveButton = document.getElementById("saveButton");
+
+    const typeConfig = {
+        students: {
+            title: "Update Student Details",
+            description: "Select a student and update their personal and academic details.",
+            label: "Select Student",
+            api: "/students"
+        },
+        companies: {
+            title: "Update Company Details",
+            description: "Select a company and update its job and eligibility details.",
+            label: "Select Company",
+            api: "/companies"
+        },
+        applications: {
+            title: "Update Application Details",
+            description: "Select an application and update its interview round and status.",
+            label: "Select Application",
+            api: "/applications"
+        }
+    };
+
+    function showMessage(text, type = "success") {
+        clearTimeout(messageTimer);
+
+        const box = document.getElementById("message");
+        box.textContent = text;
+        box.className = "message " + type;
+
+        messageTimer = setTimeout(() => {
+            box.textContent = "";
+            box.className = "message";
+        }, 6000);
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[character]);
+    }
+
+    async function apiRequest(url, options = {}) {
+        let response;
+
+        try {
+            response = await fetch(url, {
+                ...options,
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(options.headers || {})
+                }
+            });
+        } catch (error) {
+            throw new Error(
+                "Cannot connect to the server. Make sure app2.js is running on port 3009."
+            );
+        }
+
+        const contentType = response.headers.get("content-type") || "";
+        let data = {};
+
+        if (contentType.includes("application/json")) {
+            data = await response.json();
+        } else {
+            const responseText = await response.text();
+
+            if (!response.ok) {
+                throw new Error("Server error: HTTP " + response.status);
+            }
+
+            throw new Error(
+                "The server returned HTML instead of JSON. Check the API route in app2.js."
+            );
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                data.message || data.error || "Request failed: " + response.status
+            );
+        }
+
+        return data;
+    }
+
+    function switchType(type) {
+        currentType = type;
+
+        document.querySelectorAll(".tab-button").forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.type === type
+            );
+        });
+
+        document.getElementById("studentFields").hidden =
+            type !== "students";
+
+        document.getElementById("companyFields").hidden =
+            type !== "companies";
+
+        document.getElementById("applicationFields").hidden =
+            type !== "applications";
+
+        const config = typeConfig[type];
+
+        document.getElementById("formTitle").textContent = config.title;
+        document.getElementById("formDescription").textContent =
+            config.description;
+        document.getElementById("recordLabel").textContent = config.label;
+
+        clearMessage();
+        populateRecordDropdown();
+        fillSelectedRecord();
+    }
+
+    function clearMessage() {
+        clearTimeout(messageTimer);
+        const box = document.getElementById("message");
+        box.textContent = "";
+        box.className = "message";
+    }
+
+    async function loadRecords() {
+        recordSelect.innerHTML = '<option value="">Loading records...</option>';
+        saveButton.disabled = true;
+
+        const results = await Promise.allSettled([
+            apiRequest("/students"),
+            apiRequest("/companies"),
+            apiRequest("/applications")
+        ]);
+
+        const errors = [];
+
+        if (results[0].status === "fulfilled" &&
+            Array.isArray(results[0].value)) {
+            students = results[0].value;
+        } else {
+            students = [];
+            errors.push("students");
+        }
+
+        if (results[1].status === "fulfilled" &&
+            Array.isArray(results[1].value)) {
+            companies = results[1].value;
+        } else {
+            companies = [];
+            errors.push("companies");
+        }
+
+        if (results[2].status === "fulfilled" &&
+            Array.isArray(results[2].value)) {
+            applications = results[2].value;
+        } else {
+            applications = [];
+            errors.push("applications");
+        }
+
+        populateRecordDropdown();
+        fillSelectedRecord();
+
+        saveButton.disabled = false;
+
+        if (errors.length) {
+            showMessage(
+                "Could not load: " + errors.join(", ") +
+                ". Check the server and database.",
+                "error"
+            );
+        } else {
+            showMessage("Records refreshed successfully.");
+        }
+    }
+
+    function populateRecordDropdown() {
+        let records = [];
+        let options = '<option value="">Choose a record</option>';
+
+        if (currentType === "students") {
+            records = students;
+
+            options += records.map(student => `
+                <option value="${escapeHTML(student.student_id)}">
+                    ${escapeHTML(student.name)} — ${escapeHTML(student.roll_no)}
+                    (ID: ${escapeHTML(student.student_id)})
+                </option>
+            `).join("");
+        }
+
+        if (currentType === "companies") {
+            records = companies;
+
+            options += records.map(company => `
+                <option value="${escapeHTML(company.company_id)}">
+                    ${escapeHTML(company.company_name)} — ${escapeHTML(company.job_role)}
+                    (ID: ${escapeHTML(company.company_id)})
+                </option>
+            `).join("");
+        }
+
+        if (currentType === "applications") {
+            records = applications;
+
+            options += records.map(app => `
+                <option value="${escapeHTML(app.application_id)}">
+                    Application #${escapeHTML(app.application_id)} —
+                    ${escapeHTML(app.student_name || "Unknown student")} /
+                    ${escapeHTML(app.company_name || "Unknown company")}
+                </option>
+            `).join("");
+        }
+
+        recordSelect.innerHTML = options;
+
+        if (records.length === 0) {
+            recordSelect.innerHTML =
+                '<option value="">No records available</option>';
+        }
+    }
+
+    function fillSelectedRecord() {
+        const id = recordSelect.value;
+
+        if (!id) {
+            resetFieldsOnly();
+            return;
+        }
+
+        if (currentType === "students") {
+            const student = students.find(item =>
+                String(item.student_id) === id
+            );
+
+            if (!student) return;
+
+            document.getElementById("studentName").value =
+                student.name ?? "";
+
+            document.getElementById("rollNo").value =
+                student.roll_no ?? "";
+
+            document.getElementById("branch").value =
+                student.branch ?? "";
+
+            document.getElementById("cgpa").value =
+                student.cgpa ?? "";
+
+            document.getElementById("studentEmail").value =
+                student.email ?? "";
+        }
+
+        if (currentType === "companies") {
+            const company = companies.find(item =>
+                String(item.company_id) === id
+            );
+
+            if (!company) return;
+
+            document.getElementById("companyName").value =
+                company.company_name ?? "";
+
+            document.getElementById("jobRole").value =
+                company.job_role ?? "";
+
+            document.getElementById("package").value =
+                company.package ?? "";
+
+            document.getElementById("eligibilityCgpa").value =
+                company.eligibility_cgpa ?? "";
+
+            document.getElementById("driveDate").value =
+                company.drive_date
+                    ? String(company.drive_date).slice(0, 10)
+                    : "";
+        }
+
+        if (currentType === "applications") {
+            const app = applications.find(item =>
+                String(item.application_id) === id
+            );
+
+            if (!app) return;
+
+            document.getElementById("applicationStudent").value =
+                app.student_name || "Unknown";
+
+            document.getElementById("applicationCompany").value =
+                app.company_name || "Unknown";
+
+            document.getElementById("applicationDate").value =
+                app.applied_date
+                    ? String(app.applied_date).slice(0, 10)
+                    : "";
+
+            document.getElementById("applicationRound").value =
+                app.round || "Applied";
+
+            document.getElementById("applicationStatus").value =
+                app.status || "Pending";
+        }
+    }
+
+    function resetFieldsOnly() {
+        document.getElementById("studentName").value = "";
+        document.getElementById("rollNo").value = "";
+        document.getElementById("branch").value = "";
+        document.getElementById("cgpa").value = "";
+        document.getElementById("studentEmail").value = "";
+
+        document.getElementById("companyName").value = "";
+        document.getElementById("jobRole").value = "";
+        document.getElementById("package").value = "";
+        document.getElementById("eligibilityCgpa").value = "";
+        document.getElementById("driveDate").value = "";
+
+        document.getElementById("applicationStudent").value = "";
+        document.getElementById("applicationCompany").value = "";
+        document.getElementById("applicationDate").value = "";
+        document.getElementById("applicationRound").value = "Applied";
+        document.getElementById("applicationStatus").value = "Pending";
+    }
+
+    function resetForm() {
+        recordSelect.value = "";
+        resetFieldsOnly();
+        clearMessage();
+    }
+
+    recordSelect.addEventListener("change", () => {
+        clearMessage();
+        fillSelectedRecord();
+    });
+
+    updateForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const id = recordSelect.value;
+
+        if (!id) {
+            showMessage("Please select a record to update.", "error");
+            return;
+        }
+
+        let endpoint = "";
+        let payload = {};
+
+        if (currentType === "students") {
+            const cgpa = Number(document.getElementById("cgpa").value);
+
+            if (!Number.isFinite(cgpa) || cgpa < 0 || cgpa > 10) {
+                showMessage("CGPA must be between 0 and 10.", "error");
+                return;
+            }
+
+            endpoint = "/students/" + encodeURIComponent(id);
+
+            payload = {
+                name: document.getElementById("studentName").value.trim(),
+                roll_no: document.getElementById("rollNo").value.trim(),
+                branch: document.getElementById("branch").value.trim(),
+                cgpa: cgpa,
+                email: document.getElementById("studentEmail").value.trim()
+            };
+
+            if (!payload.name || !payload.roll_no ||
+                !payload.branch || !payload.email) {
+                showMessage("Please fill in all student fields.", "error");
+                return;
+            }
+        }
+
+        if (currentType === "companies") {
+            const packageValue =
+                Number(document.getElementById("package").value);
+
+            const eligibilityCgpa =
+                Number(document.getElementById("eligibilityCgpa").value);
+
+            if (
+                !Number.isFinite(packageValue) ||
+                packageValue < 0 ||
+                !Number.isFinite(eligibilityCgpa) ||
+                eligibilityCgpa < 0 ||
+                eligibilityCgpa > 10
+            ) {
+                showMessage(
+                    "Enter a valid package and eligibility CGPA between 0 and 10.",
+                    "error"
+                );
+                return;
+            }
+
+            endpoint = "/companies/" + encodeURIComponent(id);
+
+            payload = {
+                company_name:
+                    document.getElementById("companyName").value.trim(),
+                job_role:
+                    document.getElementById("jobRole").value.trim(),
+                package: packageValue,
+                eligibility_cgpa: eligibilityCgpa,
+                drive_date: document.getElementById("driveDate").value
+            };
+
+            if (!payload.company_name || !payload.job_role ||
+                !payload.drive_date) {
+                showMessage("Please fill in all company fields.", "error");
+                return;
+            }
+        }
+
+        if (currentType === "applications") {
+            endpoint = "/applications/" + encodeURIComponent(id);
+
+            payload = {
+                round: document.getElementById("applicationRound").value,
+                status: document.getElementById("applicationStatus").value
+            };
+        }
+
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
+
+        try {
+            await apiRequest(endpoint, {
+                method: "PUT",
+                body: JSON.stringify(payload)
+            });
+
+            showMessage("Record updated successfully.");
+
+            await refreshLocalRecords();
+
+        } catch (error) {
+            showMessage(error.message, "error");
+        } finally {
+            saveButton.disabled = false;
+            saveButton.textContent = "Save Changes";
+        }
+    });
+
+    async function refreshLocalRecords() {
+        const selectedId = recordSelect.value;
+
+        const results = await Promise.allSettled([
+            apiRequest("/students"),
+            apiRequest("/companies"),
+            apiRequest("/applications")
+        ]);
+
+        if (results[0].status === "fulfilled" &&
+            Array.isArray(results[0].value)) {
+            students = results[0].value;
+        }
+
+        if (results[1].status === "fulfilled" &&
+            Array.isArray(results[1].value)) {
+            companies = results[1].value;
+        }
+
+        if (results[2].status === "fulfilled" &&
+            Array.isArray(results[2].value)) {
+            applications = results[2].value;
+        }
+
+        populateRecordDropdown();
+
+        if ([...recordSelect.options].some(option =>
+            option.value === selectedId
+        )) {
+            recordSelect.value = selectedId;
+            fillSelectedRecord();
+        }
+    }
+
+    // Initial setup.
+    loadRecords();
+</script>
+```
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!-- To list all students data -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>List Students</title>
+</head>
+
+<body>
+
+<h1>LIST OF STUDENTS</h1>
+
+<hr>
+
+<a href="index.html">Home</a> |
+<a href="list.html">List Students</a> |
+<a href="listOne.html">List Required Student</a> |
+<a href="insert.html">Insert Student</a> |
+<a href="update.html">Update Student</a> |
+<a href="delete.html">Delete Student</a>
+
+<hr>
+
+<button onclick="loadStudents()">
+    Refresh List
+</button>
+
+<br><br>
+
+<table border="1" id="studentTable">
+
+</table>
+
+<br>
+
+<button onclick="location.href='index.html'">
+    Home Page
+</button>
+
+
+<script>
+
+loadStudents();
+
+function loadStudents()
+{
+
+fetch("/students")
+
+.then(response => response.json())
+
+.then(data => {
+
+    let table = document.getElementById("studentTable");
+
+    table.innerHTML = `
+    <tr>
+        <th>Student Number</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Mobile</th>
+        <th>Total</th>
+    </tr>`;
+
+    data.forEach(student => {
+
+        table.innerHTML += `
+        <tr>
+            <td>${student.std_id}</td>
+            <td>${student.stud_name}</td>
+            <td>${student.age}</td>
+            <td>${student.mobile}</td>
+            <td>${student.total}</td>
+        </tr>
+        `;
+
+    });
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>

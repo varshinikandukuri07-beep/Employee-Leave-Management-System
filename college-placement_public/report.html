@@ -1,0 +1,818 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Reports | VARSHINI</title>
+
+```
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f4f6fb;
+        color: #20243a;
+    }
+
+    .sidebar {
+        width: 240px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #171b3b;
+        color: white;
+        padding: 25px 18px;
+    }
+
+    .logo {
+        font-size: 23px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        color: #b8bfdf;
+        font-size: 12px;
+        margin-bottom: 35px;
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 13px 15px;
+        margin: 7px 0;
+        color: #dce0f5;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+        background: #6c63ff;
+        color: white;
+    }
+
+    .main {
+        margin-left: 240px;
+        padding: 30px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 7px;
+    }
+
+    .description {
+        color: #777d91;
+        font-size: 14px;
+    }
+
+    button {
+        border: none;
+        padding: 11px 17px;
+        border-radius: 7px;
+        background: #6c63ff;
+        color: white;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    button:hover {
+        background: #5148e5;
+    }
+
+    .secondary {
+        background: #e7e9f5;
+        color: #282d4a;
+    }
+
+    .secondary:hover {
+        background: #d8dbed;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(150px, 1fr));
+        gap: 18px;
+        margin-bottom: 25px;
+    }
+
+    .card {
+        background: white;
+        padding: 22px;
+        border-radius: 12px;
+        box-shadow: 0 3px 14px rgba(30, 35, 70, 0.06);
+        border: 1px solid #eceef5;
+    }
+
+    .card-label {
+        color: #777d91;
+        font-size: 13px;
+        margin-bottom: 13px;
+    }
+
+    .card-value {
+        font-size: 30px;
+        font-weight: bold;
+        color: #24294a;
+    }
+
+    .card-note {
+        color: #858ba0;
+        font-size: 12px;
+        margin-top: 9px;
+    }
+
+    .panel {
+        background: white;
+        padding: 23px;
+        border-radius: 12px;
+        box-shadow: 0 3px 14px rgba(30, 35, 70, 0.06);
+        border: 1px solid #eceef5;
+        margin-bottom: 24px;
+    }
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 19px;
+    }
+
+    .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+    }
+
+    input,
+    select {
+        padding: 11px;
+        border: 1px solid #dfe2ed;
+        border-radius: 7px;
+        background: white;
+        font-size: 13px;
+        outline: none;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #6c63ff;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 750px;
+    }
+
+    th,
+    td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #eef0f6;
+        text-align: left;
+        font-size: 13px;
+    }
+
+    th {
+        background: #f8f9fd;
+        color: #656b80;
+        font-weight: 600;
+    }
+
+    td {
+        color: #383d56;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 6px 9px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        background: #eeeeff;
+        color: #5148e5;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 25px;
+        color: #858ba0;
+    }
+
+    .message {
+        margin-bottom: 15px;
+        font-size: 13px;
+        color: #555d75;
+    }
+
+    .error {
+        color: #c62828;
+    }
+
+    .success {
+        color: #18834b;
+    }
+
+    .chart-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+        gap: 25px;
+    }
+
+    .chart-item {
+        margin-bottom: 17px;
+    }
+
+    .chart-label {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .bar-background {
+        height: 10px;
+        background: #eceef6;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .bar {
+        height: 100%;
+        width: 0;
+        background: #6c63ff;
+        border-radius: 20px;
+        transition: width 0.3s ease;
+    }
+
+    .bar.green {
+        background: #24a36a;
+    }
+
+    .bar.orange {
+        background: #f2a541;
+    }
+
+    .footer {
+        text-align: center;
+        color: #8a8fa2;
+        font-size: 12px;
+        padding: 15px;
+    }
+
+    @media (max-width: 1100px) {
+        .cards {
+            grid-template-columns: repeat(2, minmax(150px, 1fr));
+        }
+    }
+
+    @media (max-width: 750px) {
+        .sidebar {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .sidebar a {
+            display: inline-block;
+            margin: 4px;
+        }
+
+        .subtitle {
+            margin-bottom: 15px;
+        }
+
+        .main {
+            margin-left: 0;
+            padding: 18px;
+        }
+
+        .cards,
+        .chart-list {
+            grid-template-columns: 1fr;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<aside class="sidebar">
+    <div class="logo">VARSHINI</div>
+    <div class="subtitle">College Placement Management</div>
+
+    <a href="index.html">Dashboard</a>
+    <a href="students.html">Students</a>
+    <a href="companies.html">Companies</a>
+    <a href="applications.html">Applications</a>
+    <a href="search.html">Search Records</a>
+    <a href="update.html">Update Records</a>
+    <a href="delete.html">Delete Records</a>
+    <a href="reports.html" class="active">Reports</a>
+</aside>
+
+<main class="main">
+
+    <div class="header">
+        <div>
+            <h1>Placement Reports</h1>
+            <p class="description">
+                View placement statistics and application records.
+            </p>
+        </div>
+
+        <div>
+            <button class="secondary" onclick="loadReports()">Refresh Reports</button>
+            <button onclick="exportCSV()">Export CSV</button>
+        </div>
+    </div>
+
+    <p id="message" class="message">Loading placement reports...</p>
+
+    <section class="cards">
+        <div class="card">
+            <div class="card-label">Total Students</div>
+            <div class="card-value" id="totalStudents">—</div>
+            <div class="card-note">Registered students</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Total Companies</div>
+            <div class="card-value" id="totalCompanies">—</div>
+            <div class="card-note">Companies in the database</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Total Applications</div>
+            <div class="card-value" id="totalApplications">—</div>
+            <div class="card-note">Recorded applications</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Selected Students</div>
+            <div class="card-value" id="selectedStudents">—</div>
+            <div class="card-note">Distinct students with selected applications</div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-header">
+            <h2>Application Status Overview</h2>
+        </div>
+
+        <div class="chart-list">
+            <div>
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Selected</span>
+                        <strong id="selectedCount">0</strong>
+                    </div>
+                    <div class="bar-background">
+                        <div class="bar green" id="selectedBar"></div>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Rejected</span>
+                        <strong id="rejectedCount">0</strong>
+                    </div>
+                    <div class="bar-background">
+                        <div class="bar orange" id="rejectedBar"></div>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Pending / Other</span>
+                        <strong id="pendingCount">0</strong>
+                    </div>
+                    <div class="bar-background">
+                        <div class="bar" id="pendingBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 style="margin-bottom: 14px;">Report Summary</h2>
+                <p id="summary" style="color:#777d91; line-height:1.8; font-size:14px;">
+                    Report statistics will appear here after loading.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-header">
+            <h2>Application Details</h2>
+        </div>
+
+        <div class="filters">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search student or company..."
+                oninput="renderApplications()"
+            >
+
+            <select id="statusFilter" onchange="renderApplications()">
+                <option value="">All statuses</option>
+                <option value="selected">Selected</option>
+                <option value="rejected">Rejected</option>
+                <option value="pending">Pending / Other</option>
+            </select>
+
+            <button class="secondary" onclick="clearFilters()">Clear Filters</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Application ID</th>
+                        <th>Student</th>
+                        <th>Roll Number</th>
+                        <th>Company</th>
+                        <th>Job Role</th>
+                        <th>Package</th>
+                        <th>Applied Date</th>
+                        <th>Round</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="applicationTable">
+                    <tr>
+                        <td colspan="9" class="empty">Loading records...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="footer">
+        VARSHINI College Placement Management System
+    </div>
+
+</main>
+
+<script>
+    let students = [];
+    let companies = [];
+    let applications = [];
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, function (character) {
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[character];
+        });
+    }
+
+    function setMessage(text, isError = false) {
+        const message = document.getElementById("message");
+        message.textContent = text;
+        message.className = isError
+            ? "message error"
+            : "message success";
+    }
+
+    async function fetchRecords(endpoint) {
+        const response = await fetch(endpoint);
+        const text = await response.text();
+
+        let data;
+
+        try {
+            data = JSON.parse(text);
+        } catch {
+            throw new Error(
+                endpoint + " did not return JSON. Check app2.js and restart the server."
+            );
+        }
+
+        if (!response.ok) {
+            throw new Error(data.error || data.message || "Request failed.");
+        }
+
+        if (!Array.isArray(data)) {
+            throw new Error(endpoint + " did not return a list of records.");
+        }
+
+        return data;
+    }
+
+    function getStatusCategory(status) {
+        const value = String(status ?? "").trim().toLowerCase();
+
+        if (value === "selected" || value === "placed" || value === "hired") {
+            return "selected";
+        }
+
+        if (value === "rejected" || value === "not selected") {
+            return "rejected";
+        }
+
+        return "pending";
+    }
+
+    function formatDate(value) {
+        if (!value) return "—";
+
+        const text = String(value);
+
+        // MySQL DATE values may be returned as YYYY-MM-DD.
+        if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+            const parts = text.split("-");
+            return parts[2] + "-" + parts[1] + "-" + parts[0];
+        }
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return text;
+        }
+
+        return date.toLocaleDateString("en-IN");
+    }
+
+    function formatPackage(value) {
+        if (value === null || value === undefined || value === "") {
+            return "—";
+        }
+
+        const number = Number(value);
+
+        if (Number.isNaN(number)) {
+            return escapeHTML(value);
+        }
+
+        return "₹" + number.toLocaleString("en-IN");
+    }
+
+    async function loadReports() {
+        setMessage("Loading reports...");
+
+        try {
+            const results = await Promise.all([
+                fetchRecords("/students"),
+                fetchRecords("/companies"),
+                fetchRecords("/applications")
+            ]);
+
+            students = results[0];
+            companies = results[1];
+            applications = results[2];
+
+            updateStatistics();
+            renderApplications();
+
+            setMessage("Reports loaded successfully.");
+        } catch (error) {
+            console.error(error);
+            setMessage(error.message, true);
+
+            document.getElementById("applicationTable").innerHTML =
+                '<tr><td colspan="9" class="empty">Unable to load reports. Check the server and API routes.</td></tr>';
+
+            document.getElementById("summary").textContent =
+                "Statistics are unavailable until the API requests succeed.";
+        }
+    }
+
+    function updateStatistics() {
+        const selectedApplications = applications.filter(
+            app => getStatusCategory(app.status) === "selected"
+        );
+
+        const rejectedApplications = applications.filter(
+            app => getStatusCategory(app.status) === "rejected"
+        );
+
+        const pendingApplications = applications.filter(
+            app => getStatusCategory(app.status) === "pending"
+        );
+
+        const selectedStudentIds = new Set(
+            selectedApplications.map(app => String(app.student_id))
+        );
+
+        document.getElementById("totalStudents").textContent = students.length;
+        document.getElementById("totalCompanies").textContent = companies.length;
+        document.getElementById("totalApplications").textContent = applications.length;
+        document.getElementById("selectedStudents").textContent = selectedStudentIds.size;
+
+        document.getElementById("selectedCount").textContent = selectedApplications.length;
+        document.getElementById("rejectedCount").textContent = rejectedApplications.length;
+        document.getElementById("pendingCount").textContent = pendingApplications.length;
+
+        const total = Math.max(applications.length, 1);
+
+        document.getElementById("selectedBar").style.width =
+            (selectedApplications.length / total * 100) + "%";
+
+        document.getElementById("rejectedBar").style.width =
+            (rejectedApplications.length / total * 100) + "%";
+
+        document.getElementById("pendingBar").style.width =
+            (pendingApplications.length / total * 100) + "%";
+
+        const selectionRate = applications.length
+            ? (selectedApplications.length / applications.length * 100).toFixed(1)
+            : "0.0";
+
+        document.getElementById("summary").textContent =
+            students.length + " students, " +
+            companies.length + " companies, and " +
+            applications.length + " applications are recorded. " +
+            selectedApplications.length + " applications are marked selected. " +
+            "The application selection rate is " + selectionRate + "%.";
+    }
+
+    function renderApplications() {
+        const searchTerm = document
+            .getElementById("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
+
+        const statusFilter = document.getElementById("statusFilter").value;
+
+        const filtered = applications.filter(app => {
+            const studentName = String(app.student_name ?? "").toLowerCase();
+            const rollNo = String(app.roll_no ?? "").toLowerCase();
+            const companyName = String(app.company_name ?? "").toLowerCase();
+            const jobRole = String(app.job_role ?? "").toLowerCase();
+
+            const matchesSearch =
+                studentName.includes(searchTerm) ||
+                rollNo.includes(searchTerm) ||
+                companyName.includes(searchTerm) ||
+                jobRole.includes(searchTerm);
+
+            const matchesStatus =
+                !statusFilter ||
+                getStatusCategory(app.status) === statusFilter;
+
+            return matchesSearch && matchesStatus;
+        });
+
+        const tbody = document.getElementById("applicationTable");
+
+        if (filtered.length === 0) {
+            tbody.innerHTML =
+                '<tr><td colspan="9" class="empty">No matching application records found.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(app => {
+            const category = getStatusCategory(app.status);
+            const status = String(app.status ?? "Pending");
+
+            return `
+                <tr>
+                    <td>${escapeHTML(app.application_id)}</td>
+                    <td>${escapeHTML(app.student_name || "—")}</td>
+                    <td>${escapeHTML(app.roll_no || "—")}</td>
+                    <td>${escapeHTML(app.company_name || "—")}</td>
+                    <td>${escapeHTML(app.job_role || "—")}</td>
+                    <td>${formatPackage(app.package)}</td>
+                    <td>${escapeHTML(formatDate(app.applied_date))}</td>
+                    <td>${escapeHTML(app.round || "—")}</td>
+                    <td><span class="badge">${escapeHTML(status)}</span></td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    function clearFilters() {
+        document.getElementById("searchInput").value = "";
+        document.getElementById("statusFilter").value = "";
+        renderApplications();
+    }
+
+    function exportCSV() {
+        const headers = [
+            "Application ID",
+            "Student",
+            "Roll Number",
+            "Company",
+            "Job Role",
+            "Package",
+            "Applied Date",
+            "Round",
+            "Status"
+        ];
+
+        const searchTerm = document
+            .getElementById("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
+
+        const statusFilter = document.getElementById("statusFilter").value;
+
+        const rows = applications.filter(app => {
+            const searchable = [
+                app.student_name,
+                app.roll_no,
+                app.company_name,
+                app.job_role
+            ].join(" ").toLowerCase();
+
+            return searchable.includes(searchTerm) &&
+                (!statusFilter ||
+                 getStatusCategory(app.status) === statusFilter);
+        }).map(app => [
+            app.application_id,
+            app.student_name,
+            app.roll_no,
+            app.company_name,
+            app.job_role,
+            app.package,
+            formatDate(app.applied_date),
+            app.round,
+            app.status
+        ]);
+
+        if (rows.length === 0) {
+            alert("There are no records to export.");
+            return;
+        }
+
+        function csvCell(value) {
+            let text = String(value ?? "");
+
+            // Reduce the risk of spreadsheet formula execution.
+            if (/^[=+\-@]/.test(text)) {
+                text = "'" + text;
+            }
+
+            return '"' + text.replace(/"/g, '""') + '"';
+        }
+
+        const csv = [headers, ...rows]
+            .map(row => row.map(csvCell).join(","))
+            .join("\r\n");
+
+        const blob = new Blob(["\uFEFF" + csv], {
+            type: "text/csv;charset=utf-8;"
+        });
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "placement-report.csv";
+        link.click();
+
+        URL.revokeObjectURL(url);
+    }
+
+    loadReports();
+</script>
+```
+
+</body>
+</html>

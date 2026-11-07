@@ -1,0 +1,930 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Records | VARSHINI Placement System</title>
+
+```
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f4f5fb;
+        color: #252746;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 245px;
+        height: 100vh;
+        padding: 28px 18px;
+        background: linear-gradient(180deg, #191537, #34256d);
+        color: white;
+        overflow-y: auto;
+    }
+
+    .brand {
+        font-size: 25px;
+        font-weight: bold;
+        margin: 0 0 8px 10px;
+        letter-spacing: 1px;
+    }
+
+    .brand-subtitle {
+        font-size: 12px;
+        color: #c9c3ef;
+        margin: 0 0 35px 10px;
+    }
+
+    .sidebar a {
+        display: block;
+        text-decoration: none;
+        color: #e2dff6;
+        padding: 13px 14px;
+        margin: 7px 0;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+        background: #6652c7;
+        color: white;
+    }
+
+    .main {
+        margin-left: 245px;
+        padding: 30px;
+    }
+
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+    }
+
+    .topbar h1 {
+        font-size: 27px;
+        margin-bottom: 8px;
+    }
+
+    .topbar p {
+        color: #77798d;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .user-badge {
+        background: #e8e3ff;
+        color: #4a359f;
+        padding: 12px 17px;
+        border-radius: 25px;
+        font-weight: bold;
+    }
+
+    .warning-box {
+        background: #fff1e6;
+        color: #914a16;
+        border-left: 5px solid #e58b3c;
+        border-radius: 10px;
+        padding: 17px 20px;
+        margin-bottom: 23px;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        background: white;
+        padding: 22px;
+        border-radius: 13px;
+        box-shadow: 0 4px 15px rgba(30, 25, 70, 0.06);
+        border-left: 5px solid #d34a61;
+    }
+
+    .summary-card p {
+        color: #77798d;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .summary-card h2 {
+        font-size: 27px;
+        color: #30245f;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(30, 25, 70, 0.06);
+        margin-bottom: 25px;
+    }
+
+    .card h2 {
+        font-size: 21px;
+        margin-bottom: 8px;
+    }
+
+    .card-description {
+        color: #77798d;
+        font-size: 13px;
+        margin-bottom: 23px;
+        line-height: 1.6;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+    }
+
+    button {
+        border: none;
+        padding: 12px 17px;
+        border-radius: 7px;
+        font-weight: bold;
+        font-size: 13px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .tab-button {
+        background: white;
+        color: #4b3a9b;
+        border: 1px solid #ddd8f4;
+    }
+
+    .tab-button.active {
+        background: #6550c8;
+        color: white;
+        border-color: #6550c8;
+    }
+
+    .btn-danger {
+        background: #d63850;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #b7233b;
+    }
+
+    .btn-secondary {
+        background: #eae7f8;
+        color: #4b3a9b;
+    }
+
+    .btn-secondary:hover {
+        background: #dcd5f6;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #42435b;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #dcdbea;
+        border-radius: 7px;
+        background: white;
+        color: #252746;
+        outline: none;
+        font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #7058d9;
+        box-shadow: 0 0 0 3px rgba(112, 88, 217, 0.12);
+    }
+
+    .record-preview {
+        background: #f8f7ff;
+        border: 1px solid #e5e0fa;
+        border-radius: 10px;
+        padding: 18px;
+        margin-bottom: 22px;
+        line-height: 1.9;
+        font-size: 14px;
+        overflow-wrap: anywhere;
+    }
+
+    .record-preview strong {
+        color: #4b3a9b;
+    }
+
+    .preview-title {
+        font-size: 15px;
+        font-weight: bold;
+        color: #30245f;
+        margin-bottom: 10px;
+    }
+
+    .message {
+        display: none;
+        padding: 13px 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+    .message.success {
+        display: block;
+        background: #e3f8ec;
+        color: #17683a;
+    }
+
+    .message.error {
+        display: block;
+        background: #ffebed;
+        color: #a91f35;
+    }
+
+    .message.info {
+        display: block;
+        background: #e8efff;
+        color: #294d91;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .footer {
+        text-align: center;
+        color: #88899a;
+        font-size: 12px;
+        padding: 10px 0 20px;
+    }
+
+    @media (max-width: 1000px) {
+        .sidebar {
+            width: 200px;
+        }
+
+        .main {
+            margin-left: 200px;
+            padding: 22px;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .sidebar {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .sidebar a {
+            display: inline-block;
+            margin: 4px;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        .brand-subtitle {
+            margin-bottom: 15px;
+        }
+
+        .main {
+            margin-left: 0;
+            padding: 16px;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            padding: 18px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="brand">VARSHINI</div>
+    <div class="brand-subtitle">COLLEGE PLACEMENT SYSTEM</div>
+
+    <nav>
+        <a href="index.html">Dashboard</a>
+        <a href="students.html">Students</a>
+        <a href="companies.html">Companies</a>
+        <a href="applications.html">Applications</a>
+        <a href="search.html">Search</a>
+        <a href="update.html">Update</a>
+        <a href="delete.html" class="active">Delete</a>
+        
+    </nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+    <header class="topbar">
+        <div>
+            <h1>Delete Records</h1>
+            <p>Manage and remove existing student, company, and application records.</p>
+        </div>
+
+        <div class="user-badge">Admin Panel</div>
+    </header>
+
+    <div class="warning-box">
+        <strong>⚠ Important warning:</strong><br>
+        Deleted records cannot be restored from this page. Check the record details
+        carefully before confirming deletion. A student or company linked to existing
+        applications may not be deletable because of database foreign-key restrictions.
+    </div>
+
+    <!-- SUMMARY CARDS -->
+    <section class="summary-grid">
+        <div class="summary-card">
+            <p>Student Records</p>
+            <h2 id="studentCount">0</h2>
+        </div>
+
+        <div class="summary-card">
+            <p>Company Records</p>
+            <h2 id="companyCount">0</h2>
+        </div>
+
+        <div class="summary-card">
+            <p>Application Records</p>
+            <h2 id="applicationCount">0</h2>
+        </div>
+    </section>
+
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+
+    <!-- RECORD TYPE TABS -->
+    <div class="tabs">
+        <button type="button" class="tab-button active"
+                data-type="students" onclick="switchType('students')">
+            Delete Student
+        </button>
+
+        <button type="button" class="tab-button"
+                data-type="companies" onclick="switchType('companies')">
+            Delete Company
+        </button>
+
+        <button type="button" class="tab-button"
+                data-type="applications" onclick="switchType('applications')">
+            Delete Application
+        </button>
+    </div>
+
+    <!-- DELETE FORM -->
+    <section class="card">
+        <h2 id="formTitle">Delete Student Record</h2>
+
+        <p class="card-description" id="formDescription">
+            Select a student to inspect the record before deleting it.
+        </p>
+
+        <div class="form-group">
+            <label id="recordLabel" for="recordSelect">Select Student</label>
+
+            <select id="recordSelect">
+                <option value="">Loading records...</option>
+            </select>
+        </div>
+
+        <div class="record-preview" id="recordPreview">
+            <div class="preview-title">Record Details</div>
+            Select a record from the dropdown to view its details here.
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-danger" id="deleteButton"
+                    onclick="deleteRecord()" disabled>
+                Delete Selected Record
+            </button>
+
+            <button type="button" class="btn-secondary"
+                    onclick="loadRecords()">
+                Refresh Records
+            </button>
+
+            <button type="button" class="btn-secondary"
+                    onclick="clearSelection()">
+                Clear Selection
+            </button>
+        </div>
+    </section>
+
+    <div class="footer">
+        © 2026 VARSHINI | College Placement Management System
+    </div>
+
+</main>
+
+<script>
+    let currentType = "students";
+
+    let students = [];
+    let companies = [];
+    let applications = [];
+
+    let messageTimer = null;
+    let deleting = false;
+
+    const recordSelect = document.getElementById("recordSelect");
+    const deleteButton = document.getElementById("deleteButton");
+    const recordPreview = document.getElementById("recordPreview");
+
+    const typeConfig = {
+        students: {
+            title: "Delete Student Record",
+            description: "Select a student to inspect the record before deleting it.",
+            label: "Select Student",
+            api: "/students"
+        },
+
+        companies: {
+            title: "Delete Company Record",
+            description: "Select a company to inspect the record before deleting it.",
+            label: "Select Company",
+            api: "/companies"
+        },
+
+        applications: {
+            title: "Delete Application Record",
+            description: "Select an application to inspect it before deleting it.",
+            label: "Select Application",
+            api: "/applications"
+        }
+    };
+
+    function showMessage(text, type = "success") {
+        clearTimeout(messageTimer);
+
+        const box = document.getElementById("message");
+
+        box.textContent = text;
+        box.className = "message " + type;
+
+        messageTimer = setTimeout(() => {
+            box.textContent = "";
+            box.className = "message";
+        }, 7000);
+    }
+
+    function clearMessage() {
+        clearTimeout(messageTimer);
+
+        const box = document.getElementById("message");
+
+        box.textContent = "";
+        box.className = "message";
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[character]);
+    }
+
+    async function apiRequest(url, options = {}) {
+        let response;
+
+        try {
+            response = await fetch(url, {
+                ...options,
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(options.headers || {})
+                }
+            });
+        } catch (error) {
+            throw new Error(
+                "Cannot connect to the server. Make sure app2.js is running on port 3009."
+            );
+        }
+
+        const contentType = response.headers.get("content-type") || "";
+        let data = {};
+
+        if (contentType.includes("application/json")) {
+            data = await response.json();
+        } else {
+            const responseText = await response.text();
+
+            if (!response.ok) {
+                throw new Error(
+                    "Server error: HTTP " + response.status +
+                    ". Check the server terminal for details."
+                );
+            }
+
+            throw new Error(
+                "The server returned HTML instead of JSON. Check the API route in app2.js."
+            );
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                data.error ||
+                "Request failed with status " + response.status
+            );
+        }
+
+        return data;
+    }
+
+    // Switch between students, companies, and applications.
+    function switchType(type) {
+        if (deleting) return;
+
+        currentType = type;
+
+        document.querySelectorAll(".tab-button").forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.type === type
+            );
+        });
+
+        const config = typeConfig[type];
+
+        document.getElementById("formTitle").textContent = config.title;
+        document.getElementById("formDescription").textContent =
+            config.description;
+        document.getElementById("recordLabel").textContent = config.label;
+
+        clearMessage();
+        populateDropdown();
+        showRecordDetails();
+    }
+
+    // Load all existing records from the API.
+    async function loadRecords() {
+        if (deleting) return;
+
+        const previousId = recordSelect.value;
+
+        recordSelect.innerHTML =
+            '<option value="">Loading records...</option>';
+
+        deleteButton.disabled = true;
+
+        const results = await Promise.allSettled([
+            apiRequest("/students"),
+            apiRequest("/companies"),
+            apiRequest("/applications")
+        ]);
+
+        const failed = [];
+
+        if (results[0].status === "fulfilled" &&
+            Array.isArray(results[0].value)) {
+            students = results[0].value;
+        } else {
+            students = [];
+            failed.push("students");
+        }
+
+        if (results[1].status === "fulfilled" &&
+            Array.isArray(results[1].value)) {
+            companies = results[1].value;
+        } else {
+            companies = [];
+            failed.push("companies");
+        }
+
+        if (results[2].status === "fulfilled" &&
+            Array.isArray(results[2].value)) {
+            applications = results[2].value;
+        } else {
+            applications = [];
+            failed.push("applications");
+        }
+
+        document.getElementById("studentCount").textContent =
+            students.length;
+
+        document.getElementById("companyCount").textContent =
+            companies.length;
+
+        document.getElementById("applicationCount").textContent =
+            applications.length;
+
+        populateDropdown();
+
+        if ([...recordSelect.options].some(option =>
+            option.value === previousId
+        )) {
+            recordSelect.value = previousId;
+        }
+
+        showRecordDetails();
+
+        if (failed.length > 0) {
+            showMessage(
+                "Could not load " + failed.join(", ") +
+                ". Check app2.js and the database connection.",
+                "error"
+            );
+        } else {
+            showMessage("Records refreshed successfully.", "success");
+        }
+    }
+
+    // Populate the dropdown for the selected record type.
+    function populateDropdown() {
+        let options = '<option value="">Select a record</option>';
+
+        if (currentType === "students") {
+            options += students.map(student => `
+                <option value="${escapeHTML(student.student_id)}">
+                    ${escapeHTML(student.name)} —
+                    ${escapeHTML(student.roll_no)}
+                    (ID: ${escapeHTML(student.student_id)})
+                </option>
+            `).join("");
+        }
+
+        if (currentType === "companies") {
+            options += companies.map(company => `
+                <option value="${escapeHTML(company.company_id)}">
+                    ${escapeHTML(company.company_name)} —
+                    ${escapeHTML(company.job_role)}
+                    (ID: ${escapeHTML(company.company_id)})
+                </option>
+            `).join("");
+        }
+
+        if (currentType === "applications") {
+            options += applications.map(app => `
+                <option value="${escapeHTML(app.application_id)}">
+                    Application #${escapeHTML(app.application_id)} —
+                    ${escapeHTML(app.student_name || "Unknown student")} /
+                    ${escapeHTML(app.company_name || "Unknown company")}
+                </option>
+            `).join("");
+        }
+
+        recordSelect.innerHTML = options;
+    }
+
+    // Get the currently selected record.
+    function getSelectedRecord() {
+        const id = recordSelect.value;
+
+        if (!id) return null;
+
+        if (currentType === "students") {
+            return students.find(item =>
+                String(item.student_id) === id
+            ) || null;
+        }
+
+        if (currentType === "companies") {
+            return companies.find(item =>
+                String(item.company_id) === id
+            ) || null;
+        }
+
+        return applications.find(item =>
+            String(item.application_id) === id
+        ) || null;
+    }
+
+    // Display the selected record before deletion.
+    function showRecordDetails() {
+        const record = getSelectedRecord();
+
+        if (!record) {
+            recordPreview.innerHTML = `
+                <div class="preview-title">Record Details</div>
+                Select a record from the dropdown to view its details here.
+            `;
+
+            deleteButton.disabled = true;
+            return;
+        }
+
+        deleteButton.disabled = deleting;
+
+        if (currentType === "students") {
+            recordPreview.innerHTML = `
+                <div class="preview-title">Student Information</div>
+                <strong>Student ID:</strong> ${escapeHTML(record.student_id)}<br>
+                <strong>Name:</strong> ${escapeHTML(record.name)}<br>
+                <strong>Roll Number:</strong> ${escapeHTML(record.roll_no)}<br>
+                <strong>Branch:</strong> ${escapeHTML(record.branch)}<br>
+                <strong>CGPA:</strong> ${escapeHTML(record.cgpa)}<br>
+                <strong>Email:</strong> ${escapeHTML(record.email)}
+            `;
+        }
+
+        if (currentType === "companies") {
+            recordPreview.innerHTML = `
+                <div class="preview-title">Company Information</div>
+                <strong>Company ID:</strong> ${escapeHTML(record.company_id)}<br>
+                <strong>Company Name:</strong> ${escapeHTML(record.company_name)}<br>
+                <strong>Job Role:</strong> ${escapeHTML(record.job_role)}<br>
+                <strong>Package:</strong> ${escapeHTML(record.package)} LPA<br>
+                <strong>Eligibility CGPA:</strong> ${escapeHTML(record.eligibility_cgpa)}<br>
+                <strong>Drive Date:</strong> ${escapeHTML(record.drive_date)}
+            `;
+        }
+
+        if (currentType === "applications") {
+            recordPreview.innerHTML = `
+                <div class="preview-title">Application Information</div>
+                <strong>Application ID:</strong> ${escapeHTML(record.application_id)}<br>
+                <strong>Student:</strong> ${escapeHTML(record.student_name || "Unknown")}<br>
+                <strong>Roll Number:</strong> ${escapeHTML(record.roll_no || "—")}<br>
+                <strong>Company:</strong> ${escapeHTML(record.company_name || "Unknown")}<br>
+                <strong>Job Role:</strong> ${escapeHTML(record.job_role || "—")}<br>
+                <strong>Applied Date:</strong> ${escapeHTML(record.applied_date || "—")}<br>
+                <strong>Interview Round:</strong> ${escapeHTML(record.round || "—")}<br>
+                <strong>Status:</strong> ${escapeHTML(record.status || "—")}
+            `;
+        }
+    }
+
+    recordSelect.addEventListener("change", () => {
+        clearMessage();
+        showRecordDetails();
+    });
+
+    // Clear the selected record.
+    function clearSelection() {
+        if (deleting) return;
+
+        recordSelect.value = "";
+        showRecordDetails();
+        clearMessage();
+    }
+
+    // Delete the selected record after confirmation.
+    async function deleteRecord() {
+        if (deleting) return;
+
+        const record = getSelectedRecord();
+
+        if (!record) {
+            showMessage("Please select a record first.", "error");
+            return;
+        }
+
+        let id;
+        let description;
+        let endpoint;
+
+        if (currentType === "students") {
+            id = record.student_id;
+            description =
+                "student '" + record.name +
+                "' (Roll Number: " + record.roll_no + ")";
+            endpoint = "/students/" + encodeURIComponent(id);
+        } else if (currentType === "companies") {
+            id = record.company_id;
+            description =
+                "company '" + record.company_name +
+                "' (" + record.job_role + ")";
+            endpoint = "/companies/" + encodeURIComponent(id);
+        } else {
+            id = record.application_id;
+            description = "application #" + id;
+            endpoint = "/applications/" + encodeURIComponent(id);
+        }
+
+        const confirmed = confirm(
+            "WARNING: You are about to permanently delete this " +
+            description + ".\n\n" +
+            "This action cannot be undone.\n\n" +
+            "Do you want to continue?"
+        );
+
+        if (!confirmed) return;
+
+        deleting = true;
+        deleteButton.disabled = true;
+        deleteButton.textContent = "Deleting...";
+
+        try {
+            await apiRequest(endpoint, {
+                method: "DELETE"
+            });
+
+            showMessage(
+                "Successfully deleted " + description + ".",
+                "success"
+            );
+
+            await refreshAfterDelete();
+
+        } catch (error) {
+            showMessage(
+                "Could not delete " + description + ". " + error.message +
+                " If this record is referenced by applications, the database may prevent deletion.",
+                "error"
+            );
+        } finally {
+            deleting = false;
+            deleteButton.textContent = "Delete Selected Record";
+            showRecordDetails();
+        }
+    }
+
+    // Refresh the lists after a successful deletion.
+    async function refreshAfterDelete() {
+        const results = await Promise.allSettled([
+            apiRequest("/students"),
+            apiRequest("/companies"),
+            apiRequest("/applications")
+        ]);
+
+        if (results[0].status === "fulfilled" &&
+            Array.isArray(results[0].value)) {
+            students = results[0].value;
+        }
+
+        if (results[1].status === "fulfilled" &&
+            Array.isArray(results[1].value)) {
+            companies = results[1].value;
+        }
+
+        if (results[2].status === "fulfilled" &&
+            Array.isArray(results[2].value)) {
+            applications = results[2].value;
+        }
+
+        document.getElementById("studentCount").textContent =
+            students.length;
+
+        document.getElementById("companyCount").textContent =
+            companies.length;
+
+        document.getElementById("applicationCount").textContent =
+            applications.length;
+
+        populateDropdown();
+
+        recordSelect.value = "";
+        showRecordDetails();
+    }
+
+    // Load records when the page opens.
+    loadRecords();
+</script>
+```
+
+</body>
+</html>
